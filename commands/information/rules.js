@@ -18,6 +18,7 @@ module.exports = {
             .setColor(0x3498DB)
             .setTitle('<:rules:1339337193830879273>  Rules')
             .setDescription('<:small_white_dash:1247247464172355695>Respect everyone. Be kind and respectful to all members. No harassment, hate speech, or discrimination.\n' +
+                            '<:small_white_dash:1247247464172355695>Maintain the channels english only.\n' +
                             '<:small_white_dash:1247247464172355695>No spamming. Avoid excessive messages, emojis, caps, or mentions.\n' +
                             '<:small_white_dash:1247247464172355695>No NSFW content, offensive material, or excessive profanity.\n' +
                             '<:small_white_dash:1247247464172355695>No Self-Promotion. Do not advertise or promote other servers, social media, or businesses without permission.\n' +
