@@ -1,9 +1,9 @@
 {
   "name": "bayus",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index-bayus.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index-bayus.js"
   },
   "author": "Sn4red",
   "license": "ISC",

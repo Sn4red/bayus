@@ -1,5 +1,5 @@
 const { Events, Collection } = require('discord.js');
-const { cooldowns } = require('../index.js');
+const { cooldowns } = require('../index-bayus.js');
 
 module.exports = {
     name: Events.InteractionCreate,
