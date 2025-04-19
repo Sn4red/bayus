@@ -4,13 +4,13 @@ const Canvas = require('@napi-rs/canvas');
 module.exports = {
     name: Events.GuildMemberAdd,
     async execute(member) {
-        const role = member.guild.roles.cache.get('1294006083647438899');
+        const role = member.guild.roles.cache.get(process.env.DISCORD_MEMBER_ROLE_ID);
 
         if (role) {
             await member.roles.add(role);
         }
 
-        const channel = member.guild.channels.cache.get('1319794982504370256');
+        const channel = member.guild.channels.cache.get(process.env.DISCORD_WELCOME_CHANNEL_ID);
         
         const card = await displayCard(member.user.username);
 

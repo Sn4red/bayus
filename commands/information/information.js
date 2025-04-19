@@ -19,20 +19,20 @@ module.exports = {
             .setTitle('Welcome to the Official SCP Collector Discord Server!')
             .setDescription('This server is a place for users of SCP Collector to connect, collect and trade cards. You can collect not only by making shots but also by exchanging cards ' +
                             'with others—feel free to use the designated channels for these activities.\n\n' +
-                            '<a:pin:1230368962496434338>  **Please read the [#rules](https://discord.com/channels/1162912802701316146/1319794997695873105) and enjoy your stay!**')
+                            `${process.env.EMOJI_PIN}  **Please read the [#rules](${process.env.DISCORD_RULES_CHANNEL_URL}) and enjoy your stay!**`)
             .setFields(
-                { name: '<a:light_bulb:1337861171876986991>  Feedback & Issues:', value: 'Have any suggestions or problems with SCP Collector? Let me know by filling out this form: [Google Form](https://bit.ly/SCPCollector)'},
-                { name: '<:clip:1337492530308190279>  Important Links:', value: '- Discord Server Invite: [The Bunk3r](https://discord.gg/PrfWkJchZg)\n' +
-                        '- Official Patreon: [patreon.com/Sn4red](https://www.patreon.com/Sn4red/)'},
-                { name: '<a:stop:1243398806402240582>  New to SCP Collector?', value: 'If this is your first time using SCP Collector, you won’t be able to use commands until you run /`card`. This will register you in the system. ' +
+                { name: `${process.env.EMOJI_LIGHT_BULB}  Feedback & Issues:`, value: 'Have any suggestions or problems with SCP Collector? Let me know by filling out this form: [Google Form](https://bit.ly/SCPCollector)' },
+                { name: `${process.env.EMOJI_CLIP}  Important Links:`, value: '- Discord Server Invite: [The Bunk3r](https://discord.gg/PrfWkJchZg)\n' +
+                        '- Official Patreon: [patreon.com/Sn4red](https://www.patreon.com/Sn4red/)' },
+                { name: `${process.env.EMOJI_STOP}  New to SCP Collector?`, value: 'If this is your first time using SCP Collector, you won’t be able to use commands until you run /\`card\`. This will register you in the system. ' +
                         'Feel free to explore the information commands such as /`commands`.' },
-                { name: '<a:kiiroitori_question:1337862617682935910>  FAQs:', value: 'For frequently asked questions, use /`faq`.\n\n' +
-                        '**Secure, Contain, Protect**  <:scp:1337863934211784715>'},
+                { name: `${process.env.EMOJI_KIIROITORI}  FAQs:`, value: 'For frequently asked questions, use /`faq`.\n\n' +
+                        `**Secure, Contain, Protect**  ${process.env.EMOJI_SCP}` },
             )
             .setThumbnail('attachment://information-thumbnail.gif')
 
         // * Sends the embed to the #information channel.
-        const channel = interaction.client.channels.cache.get('1319800124922269748');
+        const channel = interaction.client.channels.cache.get(process.env.DISCORD_INFORMATION_CHANNEL_ID);
         if (channel) {
             await channel.send({ embeds: [embed], files: [thumbnail] });
         }

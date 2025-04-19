@@ -12,18 +12,18 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(0x3498DB)
-            .setTitle('<a:pin:1230368962496434338>  Server Channels and Purpose')
-            .setDescription('**[#welcome](https://discord.com/channels/1162912802701316146/1319794982504370256)** - Text channel where Bayus bot welcomes.\n' +
-                            '**[#rules](https://discord.com/channels/1162912802701316146/1319794997695873105)** - Server rules.\n' +
-                            '**[#information](https://discord.com/channels/1162912802701316146/1319800124922269748)** - Information about the Discord server, its channels and important links.\n' +
-                            '**[#announcements](https://discord.com/channels/1162912802701316146/1319795031258959914)** - Important announcements and updates about SCP Collector and the Discord server will be displayed here.\n' +
-                            '**[#general-chat](https://discord.com/channels/1162912802701316146/1319854299941044244)** - Talk about anything with the community.\n' +
-                            '**[#scp-general](https://discord.com/channels/1162912802701316146/1162912803217223903)** - Talk about anything related to SCP Collector or SCP topics.\n' +
-                            '**[#scp-shots](https://discord.com/channels/1162912802701316146/1319795699365187584)** - Place to use /`capture` but it\'s not mandatory.\n' +
-                            '**[#scp-trades](https://discord.com/channels/1162912802701316146/1319795445077377034)** - Use this channel to do trades with other users.');
+            .setTitle(`${process.env.EMOJI_PIN}  Server Channels and Purpose`)
+            .setDescription(`**[#welcome](${process.env.DISCORD_WELCOME_CHANNEL_URL})** - Text channel where Bayus bot welcomes.\n` +
+                            `**[#rules](${process.env.DISCORD_RULES_CHANNEL_URL})** - Server rules.\n` +
+                            `**[#information](${process.env.DISCORD_INFORMATION_CHANNEL_URL})** - Information about the Discord server, its channels and important links.\n` +
+                            `**[#announcements](${process.env.DISCORD_ANNOUNCEMENTS_CHANNEL_URL})** - Important announcements and updates about SCP Collector and the Discord server will be displayed here.\n` +
+                            `**[#general-chat](${process.env.DISCORD_GENERAL_CHAT_CHANNEL_URL})** - Talk about anything with the community.\n` +
+                            `**[#scp-general](${process.env.DISCORD_SCP_GENERAL_URL})** - Talk about anything related to SCP Collector or SCP topics.\n` +
+                            `**[#scp-shots](${process.env.DISCORD_SCP_SHOTS_URL})** - Place to use /\`capture\` but it\'s not mandatory.\n` +
+                            `**[#scp-trades](${process.env.DISCORD_SCP_TRADES_URL})** - Use this channel to do trades with other users.`);
 
         // * Sends the embed to the #information channel.
-        const channel = interaction.client.channels.cache.get('1319800124922269748');
+        const channel = interaction.client.channels.cache.get(process.env.DISCORD_INFORMATION_CHANNEL_ID);
         if (channel) {
             await channel.send({ embeds: [embed] });
         }

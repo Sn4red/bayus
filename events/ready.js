@@ -11,8 +11,8 @@ module.exports = {
         console.log('.)._.(/....\\.)../.).\\/.(\\___.\\');
         console.log('(____/\\_/\\_/(__/..\\____/(____/\n\n');
 
-        const guild = client.guilds.cache.get('1162912802701316146');
-        const channel = guild.channels.cache.get('1339465441327714397');
+        const guild = client.guilds.cache.get(process.env.DISCORD_SERVER_ID);
+        const channel = guild.channels.cache.get(process.env.DISCORD_MEMBER_COUNT_CHANNEL_ID);
 
         setInterval(() => {
             const memberCount = guild.memberCount;
