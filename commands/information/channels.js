@@ -5,7 +5,8 @@ module.exports = {
     cooldown: 1,
     data: new SlashCommandBuilder()
         .setName('channels')
-        .setDescription('Information about the channels.'),
+        .setDescription('Information about the channels.')
+        .setContexts(['Guild']),
     async execute(interaction) {
         // * Notify the Discord API that the interaction was received successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply();
