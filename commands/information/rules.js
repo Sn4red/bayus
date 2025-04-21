@@ -16,7 +16,7 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setColor(0x3498DB)
-            .setTitle(`${EMOJI_RULES}  Rules`)
+            .setTitle(`${process.env.EMOJI_RULES}  Rules`)
             .setDescription(`${process.env.EMOJI_SMALL_WHITE_DASH}Respect everyone. Be kind and respectful to all members. No harassment, hate speech, or discrimination.\n` +
                             `${process.env.EMOJI_SMALL_WHITE_DASH}Maintain the channels english only.\n` +
                             `${process.env.EMOJI_SMALL_WHITE_DASH}No spamming. Avoid excessive messages, emojis, caps, or mentions.\n` +
@@ -29,8 +29,8 @@ module.exports = {
                             `Breaking these rules may result in warnings, timeouts, or bans. Enjoy your stay!  ${process.env.EMOJI_MIXED_STARS}`)
             .setThumbnail('attachment://rules-thumbnail.gif');
 
-        // * Sends the embed to the #information channel.
-        const channel = interaction.client.channels.cache.get(process.env.DISCORD_INFORMATION_CHANNEL_ID);
+        // * Sends the embed to the #rules channel.
+        const channel = interaction.client.channels.cache.get(process.env.DISCORD_RULES_CHANNEL_ID);
         
         if (channel) {
             await channel.send({ embeds: [embed], files: [thumbnail] });
