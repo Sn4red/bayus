@@ -1,5 +1,4 @@
-const path = require('node:path');
-const { SlashCommandBuilder, AttachmentBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     cooldown: 1,
@@ -20,7 +19,7 @@ module.exports = {
                             `**[#announcements](${process.env.DISCORD_ANNOUNCEMENTS_CHANNEL_URL})** - Important announcements and updates about SCP Collector and the Discord server will be displayed here.\n` +
                             `**[#general-chat](${process.env.DISCORD_GENERAL_CHAT_CHANNEL_URL})** - Talk about anything with the community.\n` +
                             `**[#scp-general](${process.env.DISCORD_SCP_GENERAL_URL})** - Talk about anything related to SCP Collector or SCP topics.\n` +
-                            `**[#scp-shots](${process.env.DISCORD_SCP_SHOTS_URL})** - Place to use /\`capture\` but it\'s not mandatory.\n` +
+                            `**[#scp-shots](${process.env.DISCORD_SCP_SHOTS_URL})** - Place to use /\`capture\` but it's not mandatory.\n` +
                             `**[#scp-trades](${process.env.DISCORD_SCP_TRADES_URL})** - Use this channel to do trades with other users.`);
 
         // * Sends the embed to the #information channel.

@@ -25,12 +25,12 @@ module.exports = {
                 { name: `${process.env.EMOJI_LIGHT_BULB}  Feedback & Issues:`, value: 'Have any suggestions or problems with SCP Collector? Let me know by filling out this form: [Google Form](https://bit.ly/SCPCollector)' },
                 { name: `${process.env.EMOJI_CLIP}  Important Links:`, value: '- Discord Server Invite: [The Bunk3r](https://discord.gg/PrfWkJchZg)\n' +
                         '- Official Patreon: [patreon.com/Sn4red](https://www.patreon.com/Sn4red/)' },
-                { name: `${process.env.EMOJI_STOP}  New to SCP Collector?`, value: 'If this is your first time using SCP Collector, you won’t be able to use commands until you run /\`card\`. This will register you in the system. ' +
+                { name: `${process.env.EMOJI_STOP}  New to SCP Collector?`, value: 'If this is your first time using SCP Collector, you won’t be able to use commands until you run /`card`. This will register you in the system. ' +
                         'Feel free to explore the information commands such as /`commands`.' },
                 { name: `${process.env.EMOJI_KIIROITORI}  FAQs:`, value: 'For frequently asked questions, use /`faq`.\n\n' +
                         `**Secure, Contain, Protect**  ${process.env.EMOJI_SCP}` },
             )
-            .setThumbnail('attachment://information-thumbnail.gif')
+            .setThumbnail('attachment://information-thumbnail.gif');
 
         // * Sends the embed to the #information channel.
         const channel = interaction.client.channels.cache.get(process.env.DISCORD_INFORMATION_CHANNEL_ID);
