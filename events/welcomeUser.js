@@ -1,4 +1,4 @@
-const { Events , AttachmentBuilder } = require('discord.js');
+const { Events, AttachmentBuilder } = require('discord.js');
 const Canvas = require('@napi-rs/canvas');
 
 module.exports = {
@@ -17,11 +17,11 @@ module.exports = {
         if (channel) {
             await channel.send({
                 content: `<@${member.id}>`,
-                files: [card]
+                files: [card],
             });
         }
-    }
-}
+    },
+},
 
 async function displayCard(username) {
     // * Creates a canvas of 350x150 pixels and obtain its context.
@@ -47,11 +47,11 @@ async function displayCard(username) {
 
     // * If the username has more than 20 characters, splits the welcome message into two lines.
     if (username.length > 20) {
-        context.fillText(`Welcome to The Bunk3r,`, canvas.width / 2, 98);
+        context.fillText('Welcome to The Bunk3r,', canvas.width / 2, 98);
         context.fillText(`${username}!`, canvas.width / 2, 118);
     } else {
         context.fillText(`Welcome to The Bunk3r, ${username}!`, canvas.width / 2, 98);
     }
 
-    return new AttachmentBuilder(await canvas.encode('png'), { name: `card-${username}.png`});
-}
+    return new AttachmentBuilder(await canvas.encode('png'), { name: `card-${username}.png` });
+};
