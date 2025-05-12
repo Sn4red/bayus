@@ -8,7 +8,7 @@ module.exports = {
         .setDescription('Rules for The Bunk3r server.')
         .setContexts(['Guild']),
     async execute(interaction) {
-        // * Notify the Discord API that the interaction was received successfully and set a maximun timeout of 15 minutes.
+        // * Notifies the Discord API that the interaction was received successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply();
 
         const thumbnailPath = path.join(__dirname, '../../images/embed/rules-thumbnail.gif');

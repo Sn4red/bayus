@@ -7,7 +7,7 @@ module.exports = {
         .setDescription('Information about the channels.')
         .setContexts(['Guild']),
     async execute(interaction) {
-        // * Notify the Discord API that the interaction was received successfully and set a maximun timeout of 15 minutes.
+        // * Notifies the Discord API that the interaction was received successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply();
 
         const embed = new EmbedBuilder()
