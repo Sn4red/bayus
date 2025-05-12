@@ -40,7 +40,7 @@ module.exports = {
                 .setDescription(`**Emoji Successfully Created** ${process.env.EMOJI_CHECK}\n\n` +
                                 `Added ${createdEmoji} with the name "**${name}**".`);
 
-            await interaction.reply({ embeds: [successEmbed] });
+            await interaction.reply({ embeds: [successEmbed], ephemeral: true });
         }).catch (async (error) => {
             const errorEmbed = new EmbedBuilder()
                 .setColor(0x3498DB)

@@ -153,7 +153,9 @@ module.exports = {
                                         `Pasted \`${pastedEmojiCount}\` emojis to this server.\n\n` +
                                         'Please check the logs if all the emojis have not been pasted.');
 
-                    await interaction.channel.send({ embeds: [successEmbed], ephemeral: true });
+                    // * Because it's possible that the command can take an hour or more, the bot can't reply or follow up the interaction
+                    // * (it's expired), so it will send a message to the channel instead, and this can't be ephemeral.
+                    await interaction.channel.send({ embeds: [successEmbed] });
                 }
             });
         }
