@@ -1,13 +1,13 @@
 # Ignore dependencies directories.
 node_modules
 
+# Ignore ESLintt config file.
+eslint.config.js
+
 # Ignore .env files.
 .env
 .env.development
 .env.production
-
-# Ignore ESLintt config file.
-eslint.config.js
 
 # Ignore directories for JSON backup files.
 backups/
