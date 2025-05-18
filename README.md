@@ -30,3 +30,7 @@ Bayus has commands to copy emojis from one server to another, and to copy all em
 - /`transferemojis` `copy`: stores the URL and name of all emojis from the server where it's executed into a `JSON` file.
 - /`transferemojis` `paste`: uploads the emojis from the `JSON` file to the server where it's executed, using the URL to fetch the source, and the name to create the new emoji ID. The Discord API only
 allows uploading 50 emojis per hour, so the execution process may take a considerable amount of time.
+
+## Events
+- Leveraging the `ClientReady` event, Bayus fetches the number of server members with the `Member` role and updates a voice channel name with the count every 10 minutes.
+- When a new member joins the server, Bayus automatically assigns them the `Member` role via the `GuildMemberAdd` event and sends a personalized welcome card to a text channel using `@napi-rs/canvas`.
