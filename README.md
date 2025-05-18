@@ -3,6 +3,14 @@ Bayus is a Discord bot that assists with the administration of The Bunk3r server
 
 ---
 
+# Table of Contents
+- [Overview](#overview)
+  - [Informartion](#information)
+  - [Backup](#backup)
+  - [Emojis](#emojis)
+
+---
+
 # Overview
 ## Information
 /`channels`, /`information` and /`rules` provide embeds with information and server rules, and are only posted in the information channels.
