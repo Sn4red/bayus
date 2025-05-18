@@ -8,6 +8,7 @@ Bayus is a Discord bot that assists with the administration of The Bunk3r server
   - [Informartion](#information)
   - [Backup](#backup)
   - [Emojis](#emojis)
+  - [Events](#events)
 
 ---
 
