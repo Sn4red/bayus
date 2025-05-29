@@ -21,7 +21,7 @@ module.exports = {
             });
         }
     },
-},
+};
 
 async function displayCard(username) {
     // * Creates a canvas of 350x150 pixels and obtain its context.
