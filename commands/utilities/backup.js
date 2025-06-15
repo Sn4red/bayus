@@ -236,7 +236,8 @@ module.exports = {
                         console.log(
                             `${new Date()} >>> *** ERROR: backup.js (CREATE) ` +
                                 `*** by ${interaction.user.id} ` +
-                                `(${interaction.user.username})`);
+                                `(${interaction.user.username})`,
+                        );
                         console.error(error);
 
                         await interaction.editReply({
@@ -321,7 +322,8 @@ module.exports = {
                 console.log(
                     `${new Date()} >>> *** ERROR: backup.js (INFORMATION) ` +
                         `*** by ${interaction.user.id} ` +
-                        `(${interaction.user.username})`);
+                        `(${interaction.user.username})`,
+                );
                 console.error(error);
 
                 await interaction.editReply({

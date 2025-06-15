@@ -36,9 +36,14 @@ module.exports = {
         // * of users in the server with the Member role, and update the channel
         // * name with the new amount.
         setInterval(async () => {
-            // * This loads all members to the cache, so the Discord API can
-            // * retrieve the most recent data.
-            await guild.members.fetch();
+            try {
+                // * This loads all members to the cache, so the Discord API can
+                // * retrieve the most recent data.
+                await guild.members.fetch();
+            } catch (error) {
+                console.log(`${new Date()} >>> *** ERROR: ready.js ***`);
+                console.error(error);
+            }
 
             const memberCount = memberRole.members.size;
 
