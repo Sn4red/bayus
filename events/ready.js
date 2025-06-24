@@ -42,9 +42,6 @@ module.exports = {
                 const memberCount = memberRole.members.size;
                 const userCount = await getUserCount();
 
-                console.log(memberCount);
-                console.log(userCount);
-
                 memberCountChannel
                     .setName(`Member Count: ${memberCount.toLocaleString()}`);
                 scpUsersOnlineChannel
