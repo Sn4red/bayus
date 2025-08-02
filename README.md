@@ -8,6 +8,7 @@ Bayus is a Discord bot that assists with the administration of The Bunk3r server
   - [Informartion](#information)
   - [Backup](#backup)
   - [Emojis](#emojis)
+  - [SCP](#scp)
   - [Events](#events)
 
 ---
@@ -37,7 +38,7 @@ As a support bot for The Bunk3r, Bayus has commands related to [SCP Collector](h
 
 - /`countcards`: counts how many SCP cards (documents) are currently stored in the Firestore database.
 - /`seecard`: retrieves and displays an SCP card by its ID, pulling the data directly from Firestore.
-- /`uploadcards.`: Parses and uploads SCP card JSON files—each representing a single class—to the Firestore database, one by one.
+- /`uploadcards`: Parses and uploads SCP card JSON files—each representing a single class—to the Firestore database, one by one.
 
 ## Events
 - Leveraging the `ClientReady` event, Bayus fetches the number of server members with the `Member` role and updates a voice channel name with the count every 10 minutes.
