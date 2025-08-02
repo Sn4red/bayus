@@ -9,6 +9,7 @@ eslint.config.js
 .env.development
 .env.production
 
-# * Ignore directories for JSON backup files.
-backups/
-emojis/
+# * Ignore directories for JSON files.
+/backups/
+/emojis/
+/administration/

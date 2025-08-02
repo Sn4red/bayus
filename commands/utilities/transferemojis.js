@@ -1,12 +1,14 @@
-const path = require('path');
-const fs = require('fs');
 const {
     SlashCommandBuilder,
     MessageFlags,
     TextDisplayBuilder,
     SeparatorBuilder,
     SeparatorSpacingSize,
-    ContainerBuilder } = require('discord.js');
+    ContainerBuilder,
+} = require('discord.js');
+
+const path = require('path');
+const fs = require('fs');
 
 // * It gives the absolute path of the current file, and thes it goes back two
 // * folders to get the 'emojis' folder and the 'emojis.json' file.
@@ -17,12 +19,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('transferemojis')
         .setDescription('Adds a given emoji to a server.')
-        .addSubcommand(
-            (subcommand) => subcommand
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('copy')
                 .setDescription('Copies all the emojis from the server.'))
-        .addSubcommand(
-            (subcommand) => subcommand
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('paste')
                 .setDescription('Pastes all the emojis to the server.'))
         .setContexts(['Guild']),
@@ -30,7 +32,7 @@ module.exports = {
         // * Notifies the Discord API that the interaction was received
         // * successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply({
-            flags: MessageFlags.Ephemeral,
+            flags: [MessageFlags.Ephemeral],
         });
 
         const subcommand = interaction.options.getSubcommand();
@@ -242,7 +244,7 @@ module.exports = {
 };
 
 function createContainer(title, description) {
-    const header1 = new TextDisplayBuilder()
+    const header = new TextDisplayBuilder()
         .setContent(title);
 
     const separator1 = new SeparatorBuilder()
@@ -253,7 +255,7 @@ function createContainer(title, description) {
 
     const container = new ContainerBuilder()
         .setAccentColor(0x3498DB)
-        .addTextDisplayComponents(header1)
+        .addTextDisplayComponents(header)
         .addSeparatorComponents(separator1)
         .addTextDisplayComponents(text1);
 

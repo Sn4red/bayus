@@ -1,4 +1,8 @@
-const { Events, AttachmentBuilder } = require('discord.js');
+const {
+    Events,
+    AttachmentBuilder,
+} = require('discord.js');
+
 const Canvas = require('@napi-rs/canvas');
 
 module.exports = {

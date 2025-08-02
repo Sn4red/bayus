@@ -4,20 +4,21 @@ const {
     TextDisplayBuilder,
     SeparatorBuilder,
     SeparatorSpacingSize,
-    ContainerBuilder } = require('discord.js');
+    ContainerBuilder,
+} = require('discord.js');
 
 module.exports = {
     cooldown: 1,
     data: new SlashCommandBuilder()
         .setName('stealemoji')
         .setDescription('Adds a given emoji to a server.')
-        .addStringOption(
-            (option) => option
+        .addStringOption(option =>
+            option
                 .setName('emoji')
                 .setDescription('The emoji that you want to add to the server.')
                 .setRequired(true))
-        .addStringOption(
-            (option) => option
+        .addStringOption(option =>
+            option
                 .setName('name')
                 .setDescription('The given name for the emoji.')
                 .setRequired(true))
@@ -26,7 +27,7 @@ module.exports = {
         // * Notifies the Discord API that the interaction was received
         // * successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply({
-            flags: MessageFlags.Ephemeral,
+            flags: [MessageFlags.Ephemeral],
         });
 
         const emoji = interaction.options.getString('emoji').trim();
@@ -64,7 +65,7 @@ module.exports = {
         interaction.guild.emojis.create({
             attachment: `${emoji_url}`,
             name: `${name}`,
-        }).then(async (createdEmoji) => {
+        }).then (async (createdEmoji) => {
             const successContainer = createContainer(
                 `### ${process.env.EMOJI_CHECK}  Emoji Successfully Created`,
                 `Added  ${createdEmoji}  with the name "**${name}**".`,
@@ -96,20 +97,20 @@ module.exports = {
 };
 
 function createContainer(title, description) {
-    const header1 = new TextDisplayBuilder()
+    const header = new TextDisplayBuilder()
         .setContent(title);
 
-    const separator1 = new SeparatorBuilder()
+    const separator = new SeparatorBuilder()
         .setSpacing(SeparatorSpacingSize.Small);
 
-    const text1 = new TextDisplayBuilder()
+    const text = new TextDisplayBuilder()
         .setContent(description);
 
     const container = new ContainerBuilder()
         .setAccentColor(0x3498DB)
-        .addTextDisplayComponents(header1)
-        .addSeparatorComponents(separator1)
-        .addTextDisplayComponents(text1);
+        .addTextDisplayComponents(header)
+        .addSeparatorComponents(separator)
+        .addTextDisplayComponents(text);
 
     return container;
 }

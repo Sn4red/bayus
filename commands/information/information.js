@@ -1,5 +1,3 @@
-const path = require('node:path');
-const sharp = require('sharp');
 const {
     SlashCommandBuilder,
     AttachmentBuilder,
@@ -11,7 +9,11 @@ const {
     SeparatorSpacingSize,
     ThumbnailBuilder,
     SectionBuilder,
-    ContainerBuilder } = require('discord.js');
+    ContainerBuilder,
+} = require('discord.js');
+
+const path = require('node:path');
+const sharp = require('sharp');
 
 module.exports = {
     cooldown: 1,
@@ -24,27 +26,37 @@ module.exports = {
         // * successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply();
 
-        // * Image 1.
-        const image1Path = path
+        // * Banner Image.
+        const bannerImagePath = path
             .join(__dirname, '../../images/container/information-image-1.jpg');
 
-        const buffer1 = await sharp(image1Path)
+        const bannerImageBuffer = await sharp(bannerImagePath)
             .resize(570, 70)
             .toBuffer();
 
-        const image1 = new AttachmentBuilder(
-            buffer1,
+        const bannerImage = new AttachmentBuilder(
+            bannerImageBuffer,
             { name: 'information-image-1.jpg' },
         );
 
-        const mediaGalleryItem1Component1 = new MediaGalleryItemBuilder()
+        // * Thumbnail Image.
+        const thumbnailImagePath = path
+            .join(__dirname, '../../images/container/information-image-2.gif');
+
+        const thumbnailImage = new AttachmentBuilder(
+            thumbnailImagePath,
+            { name: 'information-image-2.gif' },
+        );
+
+        // * Banner.
+        const bannerMediaGalleryItem = new MediaGalleryItemBuilder()
             .setURL('attachment://information-image-1.jpg');
 
-        const mediaGallery1 = new MediaGalleryBuilder()
-            .addItems(mediaGalleryItem1Component1);
-        
-        // * Header 1.
-        const header1 = new TextDisplayBuilder()
+        const bannerMediaGallery = new MediaGalleryBuilder()
+            .addItems(bannerMediaGalleryItem);
+
+        // * Header.
+        const header = new TextDisplayBuilder()
             .setContent(
                 '## Welcome to the Official SCP Collector Discord Server!',
             );
@@ -53,8 +65,8 @@ module.exports = {
         const separator1 = new SeparatorBuilder()
             .setSpacing(SeparatorSpacingSize.Small);
 
-        // * Section 1.
-        const textSection1 = new TextDisplayBuilder()
+        // * Section.
+        const textSection = new TextDisplayBuilder()
             .setContent(
                 'This server is a place for users of SCP Collector to ' +
                     'connect, collect and trade cards. You can collect not ' +
@@ -66,20 +78,12 @@ module.exports = {
                     'enjoy your stay!**',
             );
 
-        const image2Path = path
-            .join(__dirname, '../../images/container/information-image-2.gif');
-            
-        const image2 = new AttachmentBuilder(
-            image2Path,
-            { name: 'information-image-2.gif' },
-        );
-
-        const thumbnailSection1 = new ThumbnailBuilder()
+        const thumbnailSection = new ThumbnailBuilder()
             .setURL('attachment://information-image-2.gif');
             
-        const section1 = new SectionBuilder()
-            .addTextDisplayComponents(textSection1)
-            .setThumbnailAccessory(thumbnailSection1);
+        const section = new SectionBuilder()
+            .addTextDisplayComponents(textSection)
+            .setThumbnailAccessory(thumbnailSection);
 
         // * Separator 2.
         const separator2 = new SeparatorBuilder()
@@ -142,8 +146,8 @@ module.exports = {
             .setSpacing(SeparatorSpacingSize.Small)
             .setDivider(false);
 
-        // * Footer 1.
-        const footer1 = new TextDisplayBuilder()
+        // * Footer.
+        const footer = new TextDisplayBuilder()
             .setContent(
                 `### Secure, Contain, Protect  ${process.env.EMOJI_SCP}`,
             );
@@ -153,8 +157,8 @@ module.exports = {
             .setSpacing(SeparatorSpacingSize.Large)
             .setDivider(false);
 
-        // * Header 2.
-        const header2 = new TextDisplayBuilder()
+        // * Channels Header.
+        const headerChannels = new TextDisplayBuilder()
             .setContent(
                 `## ${process.env.EMOJI_CHANNEL}  Server Channels and Purpose`,
             );
@@ -194,10 +198,10 @@ module.exports = {
         // * Container.
         const container = new ContainerBuilder()
             .setAccentColor(0x3498DB)
-            .addMediaGalleryComponents(mediaGallery1)
-            .addTextDisplayComponents(header1)
+            .addMediaGalleryComponents(bannerMediaGallery)
+            .addTextDisplayComponents(header)
             .addSeparatorComponents(separator1)
-            .addSectionComponents(section1)
+            .addSectionComponents(section)
             .addSeparatorComponents(separator2)
             .addTextDisplayComponents(text1)
             .addSeparatorComponents(separator3)
@@ -207,9 +211,9 @@ module.exports = {
             .addSeparatorComponents(separator5)
             .addTextDisplayComponents(text4)
             .addSeparatorComponents(separator6)
-            .addTextDisplayComponents(footer1)
+            .addTextDisplayComponents(footer)
             .addSeparatorComponents(separator7)
-            .addTextDisplayComponents(header2)
+            .addTextDisplayComponents(headerChannels)
             .addSeparatorComponents(separator8)
             .addTextDisplayComponents(text5);
 
@@ -220,8 +224,8 @@ module.exports = {
         if (channel) {
             await channel.send({
                 components: [container],
-                files: [image1, image2],
-                flags: MessageFlags.IsComponentsV2,
+                files: [bannerImage, thumbnailImage],
+                flags: [MessageFlags.IsComponentsV2],
             });
         }
 

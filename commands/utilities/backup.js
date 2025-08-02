@@ -1,6 +1,3 @@
-const path = require('path');
-const backup = require('discord-backup');
-const moment = require('moment');
 const {
     SlashCommandBuilder,
     MessageFlags,
@@ -11,7 +8,12 @@ const {
     ButtonBuilder,
     ButtonStyle,
     ContainerBuilder,
-    ComponentType } = require('discord.js');
+    ComponentType,
+} = require('discord.js');
+
+const path = require('path');
+const backup = require('discord-backup');
+const moment = require('moment');
 
 // * It gives the absolute path of the current file, and thes it goes back two
 // * folders to get the 'backups' folder, and then the backup library will use
@@ -24,37 +26,38 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('backup')
         .setDescription('Provides tools for backup and restore a server.')
-        .addSubcommand(
-            (subcommand) => subcommand
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('create')
                 .setDescription('Creates a backup of the current server.'))
-        .addSubcommand(
-            (subcommand) => subcommand
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('information')
                 .setDescription(
-                    'Shows information about a backup by providing the ID.')
-                .addStringOption(
-                    (option) => option
+                    'Shows information about a backup by providing the ID.',
+                )
+                .addStringOption(option =>
+                    option
                         .setName('id')
                         .setDescription('The backup ID.')
                         .setRequired(true)))
-        .addSubcommand(
-            (subcommand) => subcommand
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('load')
                 .setDescription(
                     'Loads a backup into the current server by providing the ' +
                         'ID.')
-                .addStringOption(
-                    (option) => option
+                .addStringOption(option =>
+                    option
                         .setName('id')
                         .setDescription('The backup ID.')
                         .setRequired(true)))
-        .addSubcommand(
-            (subcommand) => subcommand
+        .addSubcommand(subcommand =>
+            subcommand
                 .setName('delete')
                 .setDescription('Deletes a backup by providing the ID.')
-                .addStringOption(
-                    (option) => option
+                .addStringOption(option =>
+                    option
                         .setName('id')
                         .setDescription('The backup ID.')
                         .setRequired(true)))
@@ -69,7 +72,7 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === 'create') {
-            // * Confirm Container.
+            // * Confirmation Container.
             const confirmHeader = new TextDisplayBuilder()
                 .setContent(
                     `### ${process.env.EMOJI_STOP}  Are you sure you want to ` +
@@ -90,17 +93,17 @@ module.exports = {
                 .setDivider(false);
 
             const yesButton = new ButtonBuilder()
-                .setCustomId('txtYes')
+                .setCustomId('btnYes')
                 .setLabel('Yes')
                 .setStyle(ButtonStyle.Primary);
 
             const noButton = new ButtonBuilder()
-                .setCustomId('txtNo')
+                .setCustomId('btnNo')
                 .setLabel('No')
                 .setStyle(ButtonStyle.Danger);
 
-            const confirmActionRow = new ActionRowBuilder()
-                .addComponents([yesButton, noButton]);
+            const confirmnRow = new ActionRowBuilder()
+                .addComponents(yesButton, noButton);
 
             const confirmContainer = new ContainerBuilder()
                 .setAccentColor(0x3498DB)
@@ -108,8 +111,8 @@ module.exports = {
                 .addSeparatorComponents(confirmSeparator1)
                 .addTextDisplayComponents(confirmText)
                 .addSeparatorComponents(confirmSeparator2)
-                .addActionRowComponents(confirmActionRow);
-            
+                .addActionRowComponents(confirmnRow);
+
             const reply = await interaction.editReply({
                 components: [confirmContainer],
                 flags: [MessageFlags.IsComponentsV2],
@@ -120,25 +123,37 @@ module.exports = {
             const collector = await reply.createMessageComponentCollector({
                 componentType: ComponentType.Button,
                 time: timeLeft,
+                max: 1,
             });
 
             let deletedMessage = false;
 
+            // * Collector listener for the confirmation buttons.
+            // * The return statements are used to get out of the collector
+            // * event.
             collector.on('collect', async (button) => {
-                if (button.customId === 'txtYes') {
-                    await button.deferUpdate();
+                // * Validates the button interaction so it prevents unexpected
+                // * errors (it basically makes sure that the buttons was
+                // * actually clicked).
+                if (!button) {
+                    return;
+                }
 
+                // * Interaction is acknowledged to prevent the interaction
+                // * timeout.
+                await button.deferUpdate();
+
+                // * Validates that the button clicked is one of the
+                // * confirmation buttons (there is just 2 buttons, but it
+                // * clarifies the intention).
+                if (button.customId !== 'btnYes' &&
+                    button.customId !== 'btnNo') {
+
+                    return;
+                }
+
+                if (button.customId === 'btnYes') {
                     deletedMessage = true;
-
-                    // * The same container confirmation and buttons are
-                    // * displaying but disabled, so the user can't click on it
-                    // * again during the process.
-                    yesButton.setDisabled(true);
-                    noButton.setDisabled(true);
-
-                    await interaction.editReply({
-                        components: [confirmContainer],
-                    });
 
                     backup.create(interaction.guild, {
                         jsonBeautify: true,
@@ -208,8 +223,6 @@ module.exports = {
                                 MessageFlags.Ephemeral,
                             ],
                         });
-
-                        await interaction.deleteReply();
                     }).catch (async (error) => {
                         // * Error Container.
                         const errorHeader = new TextDisplayBuilder()
@@ -246,10 +259,8 @@ module.exports = {
                     });
                 }
 
-                if (button.customId === 'txtNo') {
+                if (button.customId === 'btnNo') {
                     deletedMessage = true;
-
-                    await interaction.deleteReply();
                 }
             });
 
@@ -265,8 +276,7 @@ module.exports = {
         if (subcommand === 'information') {
             const backupId = interaction.options.getString('id');
 
-            backup.fetch(backupId)
-            .then (async (backupInformation) => {
+            backup.fetch(backupId).then (async (backupInformation) => {
                 const date = moment(backupInformation.data.createdTimestamp);
                 const formatedDate = date.format('MM/DD/YYYY HH:mm:ss');
 
@@ -336,8 +346,7 @@ module.exports = {
         if (subcommand === 'load') {
             const backupId = interaction.options.getString('id');
 
-            backup.fetch(backupId)
-            .then (async (backupInformation) => {
+            backup.fetch(backupId).then (async (backupInformation) => {
                 const date = moment(backupInformation.data.createdTimestamp);
                 const formatedDate = date.format('MM/DD/YYYY HH:mm:ss');
 
@@ -368,17 +377,17 @@ module.exports = {
                     .setDivider(false);
 
                 const yesButton = new ButtonBuilder()
-                    .setCustomId('txtYes')
+                    .setCustomId('btnYes')
                     .setLabel('Yes')
                     .setStyle(ButtonStyle.Primary);
                     
                 const noButton = new ButtonBuilder()
-                    .setCustomId('txtNo')
+                    .setCustomId('btnNo')
                     .setLabel('No')
                     .setStyle(ButtonStyle.Danger);
 
                 const confirmActionRow = new ActionRowBuilder()
-                    .addComponents([yesButton, noButton]);
+                    .addComponents(yesButton, noButton);
 
                 const confirmContainer = new ContainerBuilder()
                     .setAccentColor(0x3498DB)
@@ -398,19 +407,41 @@ module.exports = {
                 const collector = await reply.createMessageComponentCollector({
                     componentType: ComponentType.Button,
                     time: timeLeft,
+                    max: 1,
                 });
 
                 let deletedMessage = false;
 
+                // * Collector listener for the confirmation buttons.
+                // * The return statements are used to get out of the collector
+                // * event.
                 collector.on('collect', async (button) => {
-                    if (button.customId === 'txtYes') {
-                        await button.deferUpdate();
+                    // * Validates the button interaction so it prevents
+                    // * unexpected errors (it basically makes sure that the
+                    // * buttons was actually clicked).
+                    if (!button) {
+                        return;
+                    }
 
+                    // * Interaction is acknowledged to prevent the interaction
+                    // * timeout.
+                    await button.deferUpdate();
+
+                    // * Validates that the button clicked is one of the
+                    // * confirmation buttons (there is just 2 buttons, but it
+                    // * clarifies the intention).
+                    if (button.customId !== 'btnYes' &&
+                        button.customId !== 'btnNo') {
+
+                        return;
+                    }
+                    
+                    if (button.customId === 'btnYes') {
                         deletedMessage = true;
 
                         backup.load(backupId, interaction.guild, {
                             clearGuildBeforeRestore: true,
-                        }).then(() => {
+                        }).then (() => {
                             console.log('*** Backup Load ***');
                             console.log(
                                 `The backup with the ID ${backupId} was ` +
@@ -453,10 +484,8 @@ module.exports = {
                         });
                     }
 
-                    if (button.customId === 'txtNo') {
+                    if (button.customId === 'btnNo') {
                         deletedMessage = true;
-    
-                        await interaction.deleteReply();
                     }
                 });
 
@@ -507,8 +536,7 @@ module.exports = {
         if (subcommand === 'delete') {
             const backupId = interaction.options.getString('id');
 
-            backup.fetch(backupId)
-            .then(async (backupInformation) => {
+            backup.fetch(backupId).then (async (backupInformation) => {
                 const date = moment(backupInformation.data.createdTimestamp);
                 const formatedDate = date.format('MM/DD/YYYY HH:mm:ss');
 
@@ -537,17 +565,17 @@ module.exports = {
                     .setDivider(false);
 
                 const yesButton = new ButtonBuilder()
-                    .setCustomId('txtYes')
+                    .setCustomId('btnYes')
                     .setLabel('Yes')
                     .setStyle(ButtonStyle.Primary);
                     
                 const noButton = new ButtonBuilder()
-                    .setCustomId('txtNo')
+                    .setCustomId('btnNo')
                     .setLabel('No')
                     .setStyle(ButtonStyle.Danger);
 
                 const confirmActionRow = new ActionRowBuilder()
-                    .addComponents([yesButton, noButton]);
+                    .addComponents(yesButton, noButton);
 
                 const confirmContainer = new ContainerBuilder()
                     .setAccentColor(0x3498DB)
@@ -567,14 +595,36 @@ module.exports = {
                 const collector = await reply.createMessageComponentCollector({
                     componentType: ComponentType.Button,
                     time: timeLeft,
+                    max: 1,
                 });
 
                 let deletedMessage = false;
 
+                // * Collector listener for the confirmation buttons.
+                // * The return statements are used to get out of the collector
+                // * event.
                 collector.on('collect', async (button) => {
-                    if (button.customId === 'txtYes') {
-                        await button.deferUpdate();
+                    // * Validates the button interaction so it prevents
+                    // * unexpected errors (it basically makes sure that the
+                    // * buttons was actually clicked).
+                    if (!button) {
+                        return;
+                    }
 
+                    // * Interaction is acknowledged to prevent the interaction
+                    // * timeout.
+                    await button.deferUpdate();
+
+                    // * Validates that the button clicked is one of the
+                    // * confirmation buttons (there is just 2 buttons, but it
+                    // * clarifies the intention).
+                    if (button.customId !== 'btnYes' &&
+                        button.customId !== 'btnNo') {
+
+                        return;
+                    }
+
+                    if (button.customId === 'btnYes') {
                         deletedMessage = true;
 
                         backup.remove(backupId);
@@ -608,13 +658,10 @@ module.exports = {
                                 MessageFlags.Ephemeral,
                             ],
                         });
-                        await interaction.deleteReply();
                     }
 
-                    if (button.customId === 'txtNo') {
+                    if (button.customId === 'btnNo') {
                         deletedMessage = true;
-    
-                        await interaction.deleteReply();
                     }
                 });
 

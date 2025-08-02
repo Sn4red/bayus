@@ -1,5 +1,3 @@
-const path = require('node:path');
-const sharp = require('sharp');
 const {
     SlashCommandBuilder,
     AttachmentBuilder,
@@ -11,7 +9,11 @@ const {
     SeparatorSpacingSize,
     ThumbnailBuilder,
     SectionBuilder,
-    ContainerBuilder } = require('discord.js');
+    ContainerBuilder,
+} = require('discord.js');
+
+const path = require('node:path');
+const sharp = require('sharp');
 
 module.exports = {
     cooldown: 1,
@@ -24,35 +26,45 @@ module.exports = {
         // * successfully and set a maximun timeout of 15 minutes.
         await interaction.deferReply();
 
-        // * Image 1.
-        const image1Path = path
+        // * Banner Image.
+        const bannerImagePath = path
             .join(__dirname, '../../images/container/rules-image-1.jpg');
 
-        const buffer1 = await sharp(image1Path)
+        const bannerImageBuffer = await sharp(bannerImagePath)
             .resize(570, 70)
             .toBuffer();
 
-        const image1 = new AttachmentBuilder(
-            buffer1,
+        const bannerImage = new AttachmentBuilder(
+            bannerImageBuffer,
             { name: 'rules-image-1.jpg' },
         );
 
-        const mediaGalleryItem1Component1 = new MediaGalleryItemBuilder()
+        // * Thumbnail Image.
+        const thumbnailImagePath = path
+            .join(__dirname, '../../images/container/rules-image-2.gif');
+
+        const thumbnailImage = new AttachmentBuilder(
+            thumbnailImagePath,
+            { name: 'rules-image-2.gif' },
+        );
+
+        // * Banner.
+        const bannerMediaGalleryItem = new MediaGalleryItemBuilder()
             .setURL('attachment://rules-image-1.jpg');
 
-        const mediaGallery1 = new MediaGalleryBuilder()
-            .addItems(mediaGalleryItem1Component1);
+        const bannerMediaGallery = new MediaGalleryBuilder()
+            .addItems(bannerMediaGalleryItem);
 
-        // * Header 1.
-        const header1 = new TextDisplayBuilder()
+        // * Header.
+        const header = new TextDisplayBuilder()
             .setContent(`## ${process.env.EMOJI_RULES}  Rules`);
 
-        // * Separator 1.
-        const separator1 = new SeparatorBuilder()
+        // * Separator.
+        const separator = new SeparatorBuilder()
             .setSpacing(SeparatorSpacingSize.Small);
 
-        // * Section 1.
-        const textSection1 = new TextDisplayBuilder()
+        // * Section.
+        const textSection = new TextDisplayBuilder()
             .setContent(
                 `${process.env.EMOJI_SMALL_WHITE_DASH}Respect everyone. Be ` +
                     'kind and respectful to all members. No harassment, hate ' +
@@ -80,28 +92,20 @@ module.exports = {
                     'timeouts, or bans. Enjoy your stay! ' +
                     `${process.env.EMOJI_MIXED_STARS}`);
 
-        const image2Path = path
-            .join(__dirname, '../../images/container/rules-image-2.gif');
-
-        const image2 = new AttachmentBuilder(
-            image2Path,
-            { name: 'rules-image-2.gif' },
-        );
-
-        const thumbnailSection1 = new ThumbnailBuilder()
+        const thumbnailSection = new ThumbnailBuilder()
             .setURL('attachment://rules-image-2.gif');
 
-        const section1 = new SectionBuilder()
-            .addTextDisplayComponents(textSection1)
-            .setThumbnailAccessory(thumbnailSection1);
+        const section = new SectionBuilder()
+            .addTextDisplayComponents(textSection)
+            .setThumbnailAccessory(thumbnailSection);
 
         // * Container.
         const container = new ContainerBuilder()
             .setAccentColor(0x3498DB)
-            .addMediaGalleryComponents(mediaGallery1)
-            .addTextDisplayComponents(header1)
-            .addSeparatorComponents(separator1)
-            .addSectionComponents(section1);
+            .addMediaGalleryComponents(bannerMediaGallery)
+            .addTextDisplayComponents(header)
+            .addSeparatorComponents(separator)
+            .addSectionComponents(section);
 
         // * Sends the container to the #rules channel.
         const channel = interaction.client.channels.cache
@@ -110,8 +114,8 @@ module.exports = {
         if (channel) {
             await channel.send({
                 components: [container],
-                files: [image1, image2],
-                flags: MessageFlags.IsComponentsV2,
+                files: [bannerImage, thumbnailImage],
+                flags: [MessageFlags.IsComponentsV2],
             });
         }
 
