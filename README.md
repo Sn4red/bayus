@@ -1,4 +1,4 @@
-# Bayus ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)
+# Bayus ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white) ![Firebase](https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34)
 Bayus is a Discord bot that assists with the administration of The Bunk3r server.
 
 ---
@@ -14,7 +14,7 @@ Bayus is a Discord bot that assists with the administration of The Bunk3r server
 
 # Overview
 ## Information
-/`channels`, /`information` and /`rules` provide containers with information and server rules, and are only posted in the information channels.
+/`channels`, /`information` and /`rules` provide containers with information and server rules, and are only posted in the information channels. Also, /`braindump` is a personal-use command that displays quick-access buttons with useful links.
 
 ## Backup
 /`backup` provides administrative tools to create, query, upload, and delete backups for a particular server:
@@ -31,6 +31,13 @@ Bayus has commands to copy emojis from one server to another, and to copy all em
 - /`transferemojis` `copy`: stores the URL and name of all emojis from the server where it's executed into a `JSON` file.
 - /`transferemojis` `paste`: uploads the emojis from the `JSON` file to the server where it's executed, using the URL to fetch the source, and the name to create the new emoji ID. The Discord API only
 allows uploading 50 emojis per hour, so the execution process may take a considerable amount of time.
+
+## SCP
+As a support bot for The Bunk3r, Bayus has commands related to [SCP Collector](https://github.com/Sn4red/SCP-Collector) process:
+
+- /`countcards`: counts how many SCP cards (documents) are currently stored in the Firestore database.
+- /`seecard`: retrieves and displays an SCP card by its ID, pulling the data directly from Firestore.
+- /`uploadcards.`: Parses and uploads SCP card JSON files—each representing a single class—to the Firestore database, one by one.
 
 ## Events
 - Leveraging the `ClientReady` event, Bayus fetches the number of server members with the `Member` role and updates a voice channel name with the count every 10 minutes.
