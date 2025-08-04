@@ -1,4 +1,6 @@
 const { Events } = require('discord.js');
+const fs = require('fs');
+const path = require('path');
 const firebase = require('../utils/firebase');
 
 const database = firebase.firestore();
@@ -11,10 +13,10 @@ module.exports = {
             `${new Date()} >>> *** Functional bot ${client.user.tag} ***`,
         );
 
-        console.log('\n.____...__..._.._.._.._..____.');
-        console.log('(.._.\\./._\\.(.\\/.)/.)(.\\/.___)');
-        console.log('.)._.(/....\\.)../.).\\/.(\\___.\\');
-        console.log('(____/\\_/\\_/(__/..\\____/(____/\n\n');
+        const bannerPath = path.join(__dirname, '../utils/asciiArt.txt');
+        const banner = fs.readFileSync(bannerPath, 'utf8');
+
+        console.log(banner + '\n');
 
         // * This obtains The Bunk3r server and the Member role.
         const guild = client.guilds.cache.get(process.env.DISCORD_SERVER_ID);
