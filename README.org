@@ -39,7 +39,7 @@ backups for a particular server:
 
 * Emojis
 Bayus has commands to copy emojis from one server to another, and to copy all
-emojis from a given server, save them in a `JSON` file to be able to load
+emojis from a given server, save them in a ~JSON~ file to be able to load
 them into another server:
 
 - ~/stealemoji~: gets the emoji from a string option and creates a URL to
